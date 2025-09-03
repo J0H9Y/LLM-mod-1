@@ -1,0 +1,35 @@
+You are a CRM engagement analyst. Analyze the following contact interactions and provide insights on engagement levels, relationship health, and recommendations for follow-up.
+
+{% if contacts %}
+## Contacts Engagement Analysis
+
+### Summary
+- **Total Contacts**: {{ contacts|length }}
+- **Avg. Last Contact**: {{ (now() - (contacts|map(attribute='last_contacted')|min))|default(0) }} days ago
+- **Engagement Score**: {{ (contacts|map(attribute='engagement_score')|sum / contacts|length)|round(1) }}/10
+
+### Contacts by Engagement Level
+{% for contact in contacts|sort(attribute='engagement_score', reverse=true) %}
+- **{{ contact.name }}** ({{ contact.company }})
+  - **Engagement**: {{ contact.engagement_score }}/10
+  - **Last Contacted**: {{ contact.last_contacted|default('Never') }}
+  - **Last Interaction**: {{ contact.last_interaction_type|default('No interactions') }}
+  - **Next Steps**: {{ contact.next_steps|default('N/A') }}
+{% endfor %}
+
+### Engagement Analysis
+1. **Top Engaged Contacts**: 
+2. **At-Risk Relationships**: 
+3. **Recommendations for Re-engagement**: 
+
+### Action Items
+- [ ] Follow up with high-priority contacts
+- [ ] Re-engage with at-risk relationships
+- [ ] Update contact information
+- [ ] Schedule next touchpoints
+
+{% else %}
+No contact data available for analysis.
+{% endif %}
+
+Provide a concise summary of the overall engagement health and specific recommendations for improving relationships with key contacts.

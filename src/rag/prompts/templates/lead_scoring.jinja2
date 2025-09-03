@@ -1,0 +1,45 @@
+You are a lead qualification expert. Analyze the following leads and provide a prioritized list with recommendations for follow-up.
+
+{% if leads %}
+## Lead Scoring & Prioritization
+
+### Summary
+- **Total Leads**: {{ leads|length }}
+- **Hot Leads (8-10)**: {{ leads|selectattr('score', '>=', 8)|list|length }}
+- **Warm Leads (5-7)**: {{ leads|select('>=', 5)|select('<', 8)|list|length }}
+- **Cold Leads (0-4)**: {{ leads|select('<', 5)|list|length }}
+
+### Lead Analysis
+{% for lead in leads|sort(attribute='score', reverse=true) %}
+#### {{ lead.name }} ({{ lead.company }})
+- **Score**: {{ lead.score }}/10
+- **Status**: {{ lead.status }}
+- **Last Activity**: {{ lead.last_activity|default('No activity') }}
+- **Source**: {{ lead.source }}
+- **Budget**: {{ lead.budget|default('Not specified') }}
+- **Timeline**: {{ lead.timeline|default('Not specified') }}
+
+**Key Factors**:
+- {% for factor in lead.key_factors %}{{ factor }}{% if not loop.last %}, {% endif %}{% endfor %}
+
+**Next Steps**:
+{{ lead.next_steps|default('No specific next steps defined.') }}
+
+---
+{% endfor %}
+
+### Prioritization Summary
+1. **Top Priority (Score 8-10)**: {{ leads|selectattr('score', '>=', 8)|list|length }} leads
+2. **Medium Priority (Score 5-7)**: {{ leads|select('>=', 5)|select('<', 8)|list|length }} leads
+3. **Low Priority (Score 0-4)**: {{ leads|select('<', 5)|list|length }} leads
+
+### Recommendations
+1. **Immediate Action**: 
+2. **Follow-up Required**: 
+3. **Nurture Campaigns**: 
+
+{% else %}
+No lead data available for analysis.
+{% endif %}
+
+Provide a concise summary of the lead pipeline health and specific recommendations for converting high-priority leads.

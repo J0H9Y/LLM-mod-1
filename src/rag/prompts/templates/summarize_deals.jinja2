@@ -1,0 +1,31 @@
+You are a CRM analyst assistant. Based on the following deal data, generate a concise summary highlighting key opportunities, risks, and trends.
+
+{% if deals %}
+## Deals Overview
+
+### Key Metrics
+- **Total Value**: ${{ "{:,}".format(deals|sum(attribute='amount')|default(0)) }}
+- **Average Deal Size**: ${{ "{:,}".format((deals|sum(attribute='amount') / deals|length)|round(2) if deals else 0) }}
+- **Total Deals**: {{ deals|length }}
+
+### Deal Highlights
+{% for deal in deals|sort(attribute='amount', reverse=true) %}
+- **{{ deal.name }}** ({{ deal.stage }})
+  - **Amount**: ${{ "{:,}".format(deal.amount) }}
+  - **Close Date**: {{ deal.close_date }}
+  - **Company**: {{ deal.company }}
+  - **Owner**: {{ deal.owner }}
+  {% if deal.notes %}- **Notes**: {{ deal.notes }}{% endif %}
+{% endfor %}
+
+### Analysis
+{% else %}
+No deal data available to analyze.
+{% endif %}
+
+### Key Insights
+1. **Top Opportunities**: 
+2. **Risks to Address**: 
+3. **Recommended Actions**: 
+
+Provide a concise summary focusing on the most important deals, any patterns you notice, and suggested next steps.

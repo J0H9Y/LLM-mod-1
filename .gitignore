@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Virtual envs
+venv/
+myenv/
+.env
+.env.*
+
+# OS files
+.DS_Store
+
+# Checkpoints / weights / large assets
+checkpoints/**
+ offload/**
+ offload_cache/**
+ gemma-3-4b-it-checkpoint/**
+
+# Coverage / test artifacts
+.coverage
+htmlcov/**
+
+# Node / misc
+node_modules/**
+
+# Streamlit state
+.streamlit/**
+
