@@ -283,20 +283,21 @@ def test_create_retriever_vector_store(mocker):
     """Test creating a VectorRetriever using the factory."""
     mock_vr = mocker.patch('src.rag.retriever_v2.VectorRetriever')
     config = {}
-    retriever = create_retriever("vector", config=config, index_path="/tmp/test", embedding_dim=128)
+    _ = create_retriever("vector", config=config, index_path="/tmp/test", embedding_dim=128)
     mock_vr.assert_called_once_with(index_path="/tmp/test", embedding_dim=128)
+
 
 def test_create_retriever_odoo(mocker):
     """Test creating a ConnectorRetriever for Odoo using the factory."""
     mock_cr = mocker.patch('src.rag.retriever_v2.ConnectorRetriever')
     mock_oc = mocker.patch('src.rag.retriever_v2.OdooConnector')
     config = {"url": "localhost", "db": "test", "username": "admin", "password": "password"}
-    retriever = create_retriever("odoo", config=config)
+    _ = create_retriever("odoo", config=config)
     mock_oc.assert_called_once_with(config)
     mock_cr.assert_called_once_with(mock_oc.return_value)
+
 
 def test_create_retriever_unknown_type():
     """Test that creating a retriever with an unknown type raises a ValueError."""
     with pytest.raises(ValueError, match="Unknown retriever type: unknown_type"):
         create_retriever("unknown_type", config={})
-
